@@ -1,0 +1,41 @@
+function zle-line-init zle-keymap-select() {
+VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
+RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
+zle reset-prompt
+}
+
+function ah() {
+  pattern="*$1*"
+  mode="$2"
+  port="$3"
+  for core in $ANSIBLE_PATH/host_vars/$~pattern/core.yml; do
+    host=$(basename $(dirname $core))
+    ip=$(awk '/ansible_host/ { gsub("\47|\42","");print $NF }' $core)
+    if [ "$mode" = "a" ] ; then
+      echo "$host A $ip"
+    elif [ "$mode" = "list" ] ; then
+      if [ ! $port = "" ]; then
+        printf " - %s [%s], port %d\n" "$host" "$ip" "$port"
+      else
+        printf " - %s [%s]\n" "$host" "$ip"
+      fi
+    else
+      printf "%-30s\t%-15s\n" "$host" "$ip"
+    fi
+  done
+}
+
+function pr() {
+  branch=$(git branch | awk '/\*/ { print $NF }')
+  git checkout master
+  git pull --rebase
+  git checkout $branch
+  git rebase master
+  if [ "$1" = "force" ]; then
+    git push --force
+  else
+    git push
+  fi
+  hub pull-request
+}
+

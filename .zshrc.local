@@ -1,0 +1,19 @@
+export PYTHONUSERBASE=$HOME/.python
+export PATH="$PATH:$PYTHONUSERBASE/bin"
+export PATH="$PATH:$HOME/brew/bin"
+export LANG=en_US.UTF-8
+export KEYTIMEOUT=1
+
+bindkey '^P' up-history
+bindkey '^N' down-history
+bindkey '^?' backward-delete-char
+bindkey '^h' backward-delete-char
+bindkey '^w' backward-kill-word
+
+
+[ -f ~/.aliases ] && source ~/.aliases
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.functs ] && source ~/.functs
+
+zle -N zle-line-init
+zle -N zle-keymap-select
