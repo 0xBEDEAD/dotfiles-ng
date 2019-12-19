@@ -2105,7 +2105,7 @@ grml_prompt_pre_default=(
     sad-smiley        ''
     shell-level       '%F{red}'
     time              '%F{blue}'
-    user              '%B%F{blue}'
+    user              '%B%F{green}'
     vcs               ''
 )
 
@@ -3754,3 +3754,5 @@ zrclocal
 # Local variables:
 # mode: sh
 # End:
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
